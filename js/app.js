@@ -11,6 +11,7 @@ $.get('../data/page-1.json').done(data => {
     let template = $('section');
     let clone = template.clone();
 
+    clone.attr('id', `${img.keyword}`);
     clone.children('h2').text(img.title);
     clone.children('img').attr('src', `${img.image_url}`);
     clone.children('img').attr('alt', `${img.title}`);
