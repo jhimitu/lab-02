@@ -7,6 +7,7 @@ $.get('../data/page-1.json').done(data => {
   data.forEach(element => {
     new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
   });
+  //creates a new section for each image
   allImgObjs.forEach((img) => {
     let template = $('section');
     let clone = template.clone();
@@ -18,12 +19,14 @@ $.get('../data/page-1.json').done(data => {
     clone.children('img').attr('alt', `${img.title}`);
     clone.children('p').text(img.description);
     $('main').append(clone[0]);
-
+    
+    //adds each keyword to a list
     if(!keywords.includes(img.keyword)) {
       keywords.push(img.keyword);
     }
   });
 
+  //creates a select option for each keyword from the list
   keywords.forEach((keyword) => {
     let template = $('option');
     let clone = template.clone();
@@ -33,6 +36,7 @@ $.get('../data/page-1.json').done(data => {
     $('select').append(clone[0]);
   });
 
+  //handles option selection event
   $('select').change((e) => {
     $('section').each(function() {
       $(this).show();
