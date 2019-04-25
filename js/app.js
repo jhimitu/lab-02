@@ -61,3 +61,8 @@ function Img(image_url, title, description, keyword, horns) {
   this.horns = horns;
   allImgObjs.push(this);
 }
+
+
+
+//wrap each get request in a function
+//to be called when pgae 1 or page 2 is selected
