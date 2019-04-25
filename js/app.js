@@ -1,6 +1,7 @@
 'use-strict';
 
 let allImgObjs = [];
+let keywords = [];
 
 $.get('../data/page-1.json').done(data => {
   console.log(data);
@@ -17,6 +18,19 @@ $.get('../data/page-1.json').done(data => {
     clone.children('img').attr('src', `${img.image_url}`);
     clone.children('p').text(img.description);
     $('main').append(clone[0]);
+
+    if(!keywords.includes(img.keyword)) {
+      keywords.push(img.keyword);
+    }
+  });
+  console.log(keywords);
+  keywords.forEach((keyword) => {
+    let template = $('option');
+    let clone = template.clone();
+    console.log(clone[0]);
+    clone.attr('value', keyword);
+    clone.text(keyword);
+    $('select').append(clone[0]);
   });
 });
 
@@ -30,15 +44,3 @@ function Img(image_url, title, description, keyword, horns) {
   this.horns = horns;
   allImgObjs.push(this);
 }
-
-// let template = $('section');
-// let clone = template.clone();
-// console.log(clone);
-// console.log('this is the img url:', img.image_url);
-// let cloneTitle = $(clone).children('h2');
-// cloneTitle.text(`${img.title}`);
-// let cloneImg = $(clone).children('img');
-// cloneImg.attr('src', `${img.image_url}`);
-// let cloneDescription = $(clone).children('p');
-// cloneDescription.text(`${img.description}`);
-// $('main').append(clone);
