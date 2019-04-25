@@ -36,8 +36,7 @@ function getPageOne() {
       $('.page-2').css('display', 'none');
   
       clone.attr('id', `${img.keyword}`);
-      clone.attr('class', 'all');
-      clone.attr('class', 'page-1');
+      clone.attr('class', 'all page-1');
       clone.children('h2').text(img.title);
       clone.children('img').attr('src', `${img.image_url}`);
       clone.children('img').attr('alt', `${img.title}`);
@@ -56,6 +55,7 @@ function getPageOne() {
       let clone = template.clone();
   
       clone.attr('value', keyword);
+      clone.addClass('page-1 all');
       clone.text(keyword);
       $('select').append(clone[0]);
     });
@@ -67,11 +67,13 @@ function getPageOne() {
         if( $(this).attr('id') !== e.target.value) {
           $(this).hide();
         }
-        if ( $(this).attr === e.target.value ) {
+        if ( $(this).attr('id') === e.target.value ) {
           $(this).toggle();
+          console.log('hello from page one');
         }
         if ( $(this).attr('class') === e.target.value) {
           $(this).toggle();
+          console.log('hello from all');
         }
       });
     });
@@ -94,8 +96,7 @@ function getPageTwo() {
       $('.page-1').css('display', 'none');
   
       clone.attr('id', `${img.keyword}`);
-      clone.attr('class', 'all');
-      clone.attr('class', 'page-2');
+      clone.attr('class', 'all page-2');
       clone.children('h2').text(img.title);
       clone.children('img').attr('src', `${img.image_url}`);
       clone.children('img').attr('alt', `${img.title}`);
@@ -107,13 +108,14 @@ function getPageTwo() {
         pageTwoKeywords.push(img.keyword);
       }
     });
-  
+
     //creates a select option for each keyword from the list
     pageTwoKeywords.forEach((keyword) => {
       let template = $('option');
       let clone = template.clone();
   
       clone.attr('value', keyword);
+      clone.addClass('page-2 all');
       clone.text(keyword);
       $('select').append(clone[0]);
     });
@@ -142,4 +144,8 @@ function Img(image_url, title, description, keyword, horns) {
   this.description = description;
   this.keyword = keyword;
   this.horns = horns;
+}
+
+function clearOptions() {
+  $('select').empty();
 }
