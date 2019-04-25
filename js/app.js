@@ -31,8 +31,8 @@ $.get('../data/page-1.json').done(data => {
     $('select').append(clone[0]);
   });
 
-  $('select').change(() => {
-    console.log('this was clicked!');
+  $('select').change((e) => {
+    console.log(`${e.target.value} was clicked!`);
   });
 });
 
