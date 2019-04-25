@@ -16,6 +16,7 @@ $.get('../data/page-1.json').done(data => {
     console.log(clone);
     clone.children('h2').text(img.title);
     clone.children('img').attr('src', `${img.image_url}`);
+    clone.children('img').attr('alt', `${img.title}`);
     clone.children('p').text(img.description);
     $('main').append(clone[0]);
 
@@ -33,8 +34,6 @@ $.get('../data/page-1.json').done(data => {
     $('select').append(clone[0]);
   });
 });
-
-
 
 function Img(image_url, title, description, keyword, horns) {
   this.image_url = image_url;
