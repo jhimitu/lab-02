@@ -3,7 +3,7 @@
 let allImgObjs = [];
 let keywords = ['all'];
 
-$.get('../data/page-1.json').done(data => {
+$.get('./data/page-1.json').done(data => {
   data.forEach(element => {
     new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
   });
