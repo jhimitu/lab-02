@@ -35,6 +35,16 @@ $.get('../data/page-1.json').done(data => {
   $('select').change((e) => {
     console.log(`${e.target.value} was clicked!`);
     //for each section element in the DOM
+    $('section').each(function() {
+      $(this).show();
+      if( $(this).attr('id') !== e.target.value) {
+        $(this).hide();
+      }
+      if ( $(this).attr === e.target.value ) {
+        $(this).toggle();
+      }
+      console.log( $(this).attr('id') );
+    });
       //if its id does not equal the target value
       //hide it
   });
