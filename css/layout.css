@@ -1,0 +1,27 @@
+select {
+  margin: 30px;
+}
+
+main {
+  margin: auto;
+  padding: 30px;
+  height: 100vh;
+}
+
+section {
+  float: left;
+  margin: auto;
+  padding: 10px;
+}
+
+h2 {
+  padding-top: 10px;
+}
+
+footer {
+  clear: both;
+}
+
+#photo-template {
+  display: none;
+}

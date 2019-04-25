@@ -1,26 +1,55 @@
 'use-strict';
 
 let allImgObjs = [];
+let keywords = ['all'];
 
-$.get('../data/page-1.json').done((data) => {
-  console.log(data);
+$.get('../data/page-1.json').done(data => {
   data.forEach(element => {
     new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
   });
+  //creates a new section for each image
   allImgObjs.forEach((img) => {
     let template = $('section');
-    let tempHTML = template.html();
-    console.log(tempHTML);
-    console.log('this is the img url:', img.image_url);
-    console.log('this is the template html:', template[0]);
-    console.log('this is template jquery: ', template);
-    let templateTitle = $(template).children('h2');
-    templateTitle.text(`${img.title}`);
-    let templateImg = $(template).children('img');
-    templateImg.attr('src', `${img.image_url}`);
-    let templateDescription = $(template).children('p');
-    templateDescription.text(`${img.description}`);
-    $('main').append(template);
+    let clone = template.clone();
+
+    clone.attr('id', `${img.keyword}`);
+    clone.attr('class', 'all');
+    clone.children('h2').text(img.title);
+    clone.children('img').attr('src', `${img.image_url}`);
+    clone.children('img').attr('alt', `${img.title}`);
+    clone.children('p').text(img.description);
+    $('main').append(clone[0]);
+    
+    //adds each keyword to a list
+    if(!keywords.includes(img.keyword)) {
+      keywords.push(img.keyword);
+    }
+  });
+
+  //creates a select option for each keyword from the list
+  keywords.forEach((keyword) => {
+    let template = $('option');
+    let clone = template.clone();
+
+    clone.attr('value', keyword);
+    clone.text(keyword);
+    $('select').append(clone[0]);
+  });
+
+  //handles option selection event
+  $('select').change((e) => {
+    $('section').each(function() {
+      $(this).show();
+      if( $(this).attr('id') !== e.target.value) {
+        $(this).hide();
+      }
+      if ( $(this).attr === e.target.value ) {
+        $(this).toggle();
+      }
+      if ( $(this).attr('class') === e.target.value) {
+        $(this).toggle();
+      }
+    });
   });
 });
 
