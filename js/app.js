@@ -34,6 +34,9 @@ $.get('../data/page-1.json').done(data => {
 
   $('select').change((e) => {
     console.log(`${e.target.value} was clicked!`);
+    //for each section element in the DOM
+      //if its id does not equal the target value
+      //hide it
   });
 });
 
