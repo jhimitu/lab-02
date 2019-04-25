@@ -1,7 +1,7 @@
 'use-strict';
 
 let allImgObjs = [];
-let keywords = [];
+let keywords = ['all'];
 
 $.get('../data/page-1.json').done(data => {
   data.forEach(element => {
@@ -12,6 +12,7 @@ $.get('../data/page-1.json').done(data => {
     let clone = template.clone();
 
     clone.attr('id', `${img.keyword}`);
+    clone.attr('class', 'all');
     clone.children('h2').text(img.title);
     clone.children('img').attr('src', `${img.image_url}`);
     clone.children('img').attr('alt', `${img.title}`);
@@ -39,6 +40,9 @@ $.get('../data/page-1.json').done(data => {
         $(this).hide();
       }
       if ( $(this).attr === e.target.value ) {
+        $(this).toggle();
+      }
+      if ( $(this).attr('class') === e.target.value) {
         $(this).toggle();
       }
     });
