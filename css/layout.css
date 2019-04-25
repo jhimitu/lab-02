@@ -4,7 +4,8 @@ select {
 
 main {
   margin: auto;
-  padding: 20px;
+  padding: 30px;
+  height: 100vh;
 }
 
 section {
