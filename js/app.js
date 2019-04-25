@@ -30,6 +30,10 @@ $.get('../data/page-1.json').done(data => {
     clone.text(keyword);
     $('select').append(clone[0]);
   });
+
+  $('select').change(() => {
+    console.log('this was clicked!');
+  });
 });
 
 function Img(image_url, title, description, keyword, horns) {
