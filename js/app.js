@@ -1,10 +1,11 @@
 'use-strict';
 
+//gets page one on pageload
 $(() => {
   getPageOne();
 });
 
-
+//gets data for each page
 $('ul').on('click', (e) => {
   console.log(e);
   if(e.target.text === 'Page 1') {
@@ -49,8 +50,6 @@ function getPageOne() {
     data.forEach(element => {
       new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
     });
-    console.log('image objects: ', allImgObjs);
-    console.log('keywords: ', keywords);
 
     let template = $('#photo-template');
     $('main').empty();
@@ -60,7 +59,6 @@ function getPageOne() {
     let optionTemplate = $('option');
     $('select').empty();
     $('select').append(optionTemplate[0]);
-    console.log(optionTemplate);
 
     //creates a new section for each image
     allImgObjs.forEach((img) => {
@@ -95,7 +93,6 @@ function getPageOne() {
 }
 
 function getPageTwo() {
-  console.log('Page 2 was clicked');
   let allImgObjs = [];
   let keywords = ['all'];
 
@@ -112,19 +109,14 @@ function getPageTwo() {
     data.forEach(element => {
       new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
     });
-    console.log('image objects: ', allImgObjs);
-    console.log('keywords: ', keywords);
 
     let template = $('#photo-template');
     $('main').empty();
     $('main').append(template[0]);
-    console.log(template);
 
     let optionTemplate = $('option');
     $('select').empty();
     $('select').append(optionTemplate[0]);
-    console.log(optionTemplate);
-
 
     //creates a new section for each image
     allImgObjs.forEach((img) => {
