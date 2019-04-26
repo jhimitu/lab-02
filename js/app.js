@@ -1,5 +1,7 @@
 'use-strict';
 
+
+let allImgObjs;
 //gets page one on pageload
 $(() => {
   getPageOne();
@@ -32,8 +34,31 @@ $('select').change((e) => {
   });
 });
 
+$('#sort-by').change(function(e) {
+  if(e.target.value === 'title') {
+    console.log('this is supposed to sort by title');
+    console.log(allImgObjs);
+    return allImgObjs.sort((a, b) => {
+      if(a.title < b.title) {
+        return -1;
+      }
+      if(a.title > b.title) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+  if(e.target.value === 'horns') {
+    console.log('this is supposed to sort by horns');
+      console.log(allImgObjs);
+      return allImgObjs.sort((a, b) => {
+        return a.horns - b.horns;
+      });
+  }
+});
+
 function getPageOne() {
-  let allImgObjs = [];
+  allImgObjs = [];
   let keywords = ['all'];
 
   function Img(image_url, title, description, keyword, horns) {
@@ -45,42 +70,46 @@ function getPageOne() {
     allImgObjs.push(this);
   }
 
+  let template = $('.placeholder');
+  $('main').empty();
+  $('main').append(template[0]);
+
+  let optionTemplate = $('option');
+  $('select').empty();
+  $('select').append(optionTemplate[0]);
+
   console.log('Page 1 was clicked');
   $.get('./data/page-1.json').done(data => {
     data.forEach(element => {
       new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
     });
 
-    let template = $('#photo-template');
-    $('main').empty();
-    $('main').append(template[0]);
-    console.log(template);
-
-    let optionTemplate = $('option');
-    $('select').empty();
-    $('select').append(optionTemplate[0]);
-
-    //creates a new section for each image
     allImgObjs.forEach((img) => {
-      let template = $('section');
-      let clone = template.clone();
+      let theTemplateScript = $('#image-template').html();
   
-      clone.attr('id', `${img.keyword}`);
+      let theTemplate = Handlebars.compile(theTemplateScript);
+      let context = {
+        "title": `${img.title}`,
+        "image_url": `${img.image_url}`,
+        "alt-tag": `${img.title}`,
+        "description": `${img.description}`
+      }
+  
+      let theCompiledHTML = theTemplate(context);
+      let template = $('.placeholder');
+      let clone = template.clone();
       clone.attr('class', 'all');
-      clone.children('h2').text(img.title);
-      clone.children('img').attr('src', `${img.image_url}`);
-      clone.children('img').attr('alt', `${img.title}`);
-      clone.children('p').text(img.description);
+      clone.attr('id', `${img.keyword}`);
+      clone.html(theCompiledHTML);
       $('main').append(clone[0]);
       clone.show();
-      
-      //adds each keyword to a list
+
       if(!keywords.includes(img.keyword)) {
         keywords.push(img.keyword);
       }
     });
-  
-    //creates a select option for each keyword from the list
+
+      // creates a select option for each keyword from the list
     keywords.forEach((keyword) => {
       let template = $('option');
       let clone = template.clone();
@@ -93,7 +122,7 @@ function getPageOne() {
 }
 
 function getPageTwo() {
-  let allImgObjs = [];
+  allImgObjs = [];
   let keywords = ['all'];
 
   function Img(image_url, title, description, keyword, horns) {
@@ -105,40 +134,46 @@ function getPageTwo() {
     allImgObjs.push(this);
   }
 
+  let template = $('.placeholder');
+  $('main').empty();
+  $('main').append(template[0]);
+
+  let optionTemplate = $('option');
+  $('select').empty();
+  $('select').append(optionTemplate[0]);
+
+  console.log('Page 2 was clicked');
   $.get('./data/page-2.json').done(data => {
     data.forEach(element => {
       new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
     });
 
-    let template = $('#photo-template');
-    $('main').empty();
-    $('main').append(template[0]);
-
-    let optionTemplate = $('option');
-    $('select').empty();
-    $('select').append(optionTemplate[0]);
-
-    //creates a new section for each image
     allImgObjs.forEach((img) => {
-      let template = $('section');
-      let clone = template.clone();
+      let theTemplateScript = $('#image-template').html();
   
-      clone.attr('id', `${img.keyword}`);
+      let theTemplate = Handlebars.compile(theTemplateScript);
+      let context = {
+        "title": `${img.title}`,
+        "image_url": `${img.image_url}`,
+        "alt-tag": `${img.title}`,
+        "description": `${img.description}`
+      }
+  
+      let theCompiledHTML = theTemplate(context);
+      let template = $('.placeholder');
+      let clone = template.clone();
       clone.attr('class', 'all');
-      clone.children('h2').text(img.title);
-      clone.children('img').attr('src', `${img.image_url}`);
-      clone.children('img').attr('alt', `${img.title}`);
-      clone.children('p').text(img.description);
+      clone.attr('id', `${img.keyword}`);
+      clone.html(theCompiledHTML);
       $('main').append(clone[0]);
       clone.show();
-      
-      //adds each keyword to a list
+
       if(!keywords.includes(img.keyword)) {
         keywords.push(img.keyword);
       }
     });
-  
-    //creates a select option for each keyword from the list
+
+      // creates a select option for each keyword from the list
     keywords.forEach((keyword) => {
       let template = $('option');
       let clone = template.clone();

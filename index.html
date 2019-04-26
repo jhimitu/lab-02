@@ -20,13 +20,18 @@
       <select>
         <option value="default">Filter by Keyword</option>
       </select>
+      <form id="sort-by">
+        <input type="radio" name="sort" value="title"> title
+        <input type="radio" name="sort" value="horns"> horns
+      </form>
     </header>
+    <script id="image-template" type="text/x-handlebars-template">
+      <h2>{{title}}</h2>
+      <img src={{image_url}} alt={{alt-tag}}>
+      <p>{{description}}</p>
+    </script>
     <main>
-      <section id="photo-template">
-        <h2></h2>
-        <img src="" alt="">
-        <p></p>
-      </section>
+      <section class="placeholder"></section>
     </main>
     <footer>
       &copy; 2018 Code Fellows
@@ -36,6 +41,7 @@
       integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
       crossorigin="anonymous">
     </script>
+    <script src="./js/handlebars-v4.1.2.js"></script>
     <script src="./js/app.js"></script>
   </body>
 </html>
