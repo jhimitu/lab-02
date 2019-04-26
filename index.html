@@ -17,16 +17,19 @@
           <li><a href="#">Page 2</a></li>
         </ul>
       </nav>
-      <select>
-        <option value="default">Filter by Keyword</option>
+      <script id="option-template">
+        <option value="default">{{keyword}}</option>
+      </script>
+      <select class="template">
       </select>
     </header>
     <main>
-      <section id="photo-template">
-        <h2></h2>
-        <img src="" alt="">
-        <p></p>
-      </section>
+      <script id="image-template" type="text/x-handlebars-template">
+        <h2>{{title}}</h2>
+        <img src={{image_url}} alt={{alt-tag}}>
+        <p>{{description}}</p>
+      </script>
+      <section class="placeholder"></section>
     </main>
     <footer>
       &copy; 2018 Code Fellows
@@ -36,6 +39,7 @@
       integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
       crossorigin="anonymous">
     </script>
+    <script src="./js/handlebars-v4.1.2.js"></script>
     <script src="./js/app.js"></script>
   </body>
 </html>
