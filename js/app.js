@@ -38,14 +38,14 @@ $('ul').on('click', (e) => {
         let template = $('section');
         let clone = template.clone();
     
-        clone.attr('class', `${img.keyword} all`);
-        clone.attr('id', `${img.title}`);
-        // clone.attr('class', 'all');
+        clone.attr('id', `${img.keyword}`);
+        clone.attr('class', 'all');
         clone.children('h2').text(img.title);
         clone.children('img').attr('src', `${img.image_url}`);
         clone.children('img').attr('alt', `${img.title}`);
         clone.children('p').text(img.description);
         $('main').append(clone[0]);
+        clone.show();
         
         //adds each keyword to a list
         if(!keywords.includes(img.keyword)) {
@@ -101,15 +101,14 @@ $('ul').on('click', (e) => {
         let template = $('section');
         let clone = template.clone();
     
-        clone.attr('class', `${img.keyword} all`);
-        clone.attr('id', `${img.title}`);
-        // clone.attr('class', 'all');
+        clone.attr('id', `${img.keyword}`);
+        clone.attr('class', 'all');
         clone.children('h2').text(img.title);
         clone.children('img').attr('src', `${img.image_url}`);
         clone.children('img').attr('alt', `${img.title}`);
         clone.children('p').text(img.description);
-        console.log('clone', clone[0]);
         $('main').append(clone[0]);
+        clone.show();
         
         //adds each keyword to a list
         if(!keywords.includes(img.keyword)) {
@@ -132,34 +131,18 @@ $('ul').on('click', (e) => {
 
 
 
-      // //handles option selection event
-      // $('select').change((e) => {
-      //   $('section').each(function() {
-      //     // $(this).show();
-      //     if( $(this).attr('id') !== e.target.value) {
-      //       $(this).hide();
-      //     }
-      //     if ( $(this).attr('id') === e.target.value ) {
-      //       $(this).show();
-      //     }
-      //     // if ( $(this).attr('class') === e.target.value) {
-      //     //   $(this).toggle();
-      //     // }
-      //   });
-      // });
-
-      // //handles option selection event
-      // $('select').change((e) => {
-      //   $('section').each(function() {
-      //     // $(this).show();
-      //     if( $(this).attr('id') !== e.target.value) {
-      //       $(this).hide();
-      //     }
-      //     if ( $(this).attr('id') === e.target.value ) {
-      //       $(this).toggle();
-      //     }
-      //     // if ( $(this).attr('class') === e.target.value) {
-      //     //   $(this).toggle();
-      //     // }
-      //   });
-      // });
+//handles option selection event
+$('select').change((e) => {
+  $('section').each(function() {
+    // $(this).show();
+    if( $(this).attr('id') !== e.target.value) {
+      $(this).hide();
+    }
+    if ( $(this).attr('id') === e.target.value ) {
+      $(this).show();
+    }
+    if ( $(this).attr('class') === e.target.value) {
+      $(this).toggle();
+    }
+  });
+});
