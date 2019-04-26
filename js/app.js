@@ -1,5 +1,7 @@
 'use-strict';
 
+
+let allImgObjs;
 //gets page one on pageload
 $(() => {
   getPageOne();
@@ -32,8 +34,31 @@ $('select').change((e) => {
   });
 });
 
+$('#sort-by').change(function(e) {
+  if(e.target.value === 'title') {
+    console.log('this is supposed to sort by title');
+    console.log(allImgObjs);
+    return allImgObjs.sort((a, b) => {
+      if(a.title < b.title) {
+        return -1;
+      }
+      if(a.title > b.title) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+  if(e.target.value === 'horns') {
+    console.log('this is supposed to sort by horns');
+      console.log(allImgObjs);
+      return allImgObjs.sort((a, b) => {
+        return a.horns - b.horns;
+      });
+  }
+});
+
 function getPageOne() {
-  let allImgObjs = [];
+  allImgObjs = [];
   let keywords = ['all'];
 
   function Img(image_url, title, description, keyword, horns) {
@@ -48,7 +73,6 @@ function getPageOne() {
   let template = $('.placeholder');
   $('main').empty();
   $('main').append(template[0]);
-  console.log(template);
 
   let optionTemplate = $('option');
   $('select').empty();
@@ -62,7 +86,6 @@ function getPageOne() {
 
     allImgObjs.forEach((img) => {
       let theTemplateScript = $('#image-template').html();
-      console.log('the template script: ', theTemplateScript);
   
       let theTemplate = Handlebars.compile(theTemplateScript);
       let context = {
@@ -73,16 +96,13 @@ function getPageOne() {
       }
   
       let theCompiledHTML = theTemplate(context);
-      console.log('compiled HTML: ', theCompiledHTML);
       let template = $('.placeholder');
       let clone = template.clone();
       clone.attr('class', 'all');
       clone.attr('id', `${img.keyword}`);
-      console.log('clone: ', clone);
       clone.html(theCompiledHTML);
       $('main').append(clone[0]);
       clone.show();
-      console.log('clone HTML: ', clone[0]);
 
       if(!keywords.includes(img.keyword)) {
         keywords.push(img.keyword);
@@ -102,7 +122,7 @@ function getPageOne() {
 }
 
 function getPageTwo() {
-  let allImgObjs = [];
+  allImgObjs = [];
   let keywords = ['all'];
 
   function Img(image_url, title, description, keyword, horns) {
@@ -117,7 +137,6 @@ function getPageTwo() {
   let template = $('.placeholder');
   $('main').empty();
   $('main').append(template[0]);
-  console.log(template);
 
   let optionTemplate = $('option');
   $('select').empty();
@@ -131,7 +150,6 @@ function getPageTwo() {
 
     allImgObjs.forEach((img) => {
       let theTemplateScript = $('#image-template').html();
-      console.log('the template script: ', theTemplateScript);
   
       let theTemplate = Handlebars.compile(theTemplateScript);
       let context = {
@@ -142,16 +160,13 @@ function getPageTwo() {
       }
   
       let theCompiledHTML = theTemplate(context);
-      console.log('compiled HTML: ', theCompiledHTML);
       let template = $('.placeholder');
       let clone = template.clone();
       clone.attr('class', 'all');
       clone.attr('id', `${img.keyword}`);
-      console.log('clone: ', clone);
       clone.html(theCompiledHTML);
       $('main').append(clone[0]);
       clone.show();
-      console.log('clone HTML: ', clone[0]);
 
       if(!keywords.includes(img.keyword)) {
         keywords.push(img.keyword);
