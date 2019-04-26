@@ -18,8 +18,17 @@ $('ul').on('click', (e) => {
 
 //handles option selection event
 $('select').change((e) => {
-  $('.all').each(function(i) {
-    console.log($('.all')[i]);
+  $('section').each(function() {
+    // $(this).show();
+    if( $(this).attr('id') !== e.target.value) {
+      $(this).hide();
+    }
+    if ( $(this).attr('id') === e.target.value ) {
+      $(this).show();
+    }
+    if ( $(this).attr('class') === e.target.value) {
+      $(this).toggle();
+    }
   });
 });
 
@@ -36,6 +45,15 @@ function getPageOne() {
     allImgObjs.push(this);
   }
 
+  let template = $('.placeholder');
+  $('main').empty();
+  $('main').append(template[0]);
+  console.log(template);
+
+  let optionTemplate = $('option');
+  $('select').empty();
+  $('select').append(optionTemplate[0]);
+
   console.log('Page 1 was clicked');
   $.get('./data/page-1.json').done(data => {
     data.forEach(element => {
@@ -44,84 +62,42 @@ function getPageOne() {
 
     allImgObjs.forEach((img) => {
       let theTemplateScript = $('#image-template').html();
-      // console.log('the template script: ', theTemplateScript);
+      console.log('the template script: ', theTemplateScript);
   
       let theTemplate = Handlebars.compile(theTemplateScript);
       let context = {
         "title": `${img.title}`,
         "image_url": `${img.image_url}`,
         "alt-tag": `${img.title}`,
-        "description": `${img.description}`,
-        "class": "all"
+        "description": `${img.description}`
       }
+  
       let theCompiledHTML = theTemplate(context);
-      // console.log('compiled HTML: ', theCompiledHTML);
+      console.log('compiled HTML: ', theCompiledHTML);
       let template = $('.placeholder');
       let clone = template.clone();
-      clone.attr('id', `${img.keyword}`)
       clone.attr('class', 'all');
-      // console.log('clone: ', clone);
+      clone.attr('id', `${img.keyword}`);
+      console.log('clone: ', clone);
       clone.html(theCompiledHTML);
       $('main').append(clone[0]);
-      // console.log('clone HTML: ', clone[0]);
+      clone.show();
+      console.log('clone HTML: ', clone[0]);
 
       if(!keywords.includes(img.keyword)) {
         keywords.push(img.keyword);
       }
     });
 
-    // creates a select option for each keyword from the list
+      // creates a select option for each keyword from the list
     keywords.forEach((keyword) => {
-      let theTemplateScript = $('#option-template').html();
-      console.log('the template script: ', theTemplateScript);
+      let template = $('option');
+      let clone = template.clone();
   
-      let theTemplate = Handlebars.compile(theTemplateScript);
-      let context = {
-        "keyword": `${keyword}`,
-      }
-  
-      let theCompiledHTML = theTemplate(context);
-      $('select').append(theCompiledHTML);
+      clone.attr('value', keyword);
+      clone.text(keyword);
+      $('select').append(clone[0]);
     });
-
-    // let template = $('#photo-template');
-    // $('main').empty();
-    // $('main').append(template[0]);
-    // console.log(template);
-
-    // let optionTemplate = $('option');
-    // $('select').empty();
-    // $('select').append(optionTemplate[0]);
-
-    // //creates a new section for each image
-    // allImgObjs.forEach((img) => {
-    //   let template = $('section');
-    //   let clone = template.clone();
-  
-    //   clone.attr('id', `${img.keyword}`);
-    //   clone.attr('class', 'all');
-    //   clone.children('h2').text(img.title);
-    //   clone.children('img').attr('src', `${img.image_url}`);
-    //   clone.children('img').attr('alt', `${img.title}`);
-    //   clone.children('p').text(img.description);
-    //   $('main').append(clone[0]);
-    //   clone.show();
-      
-    //   // adds each keyword to a list
-    //   if(!keywords.includes(img.keyword)) {
-    //     keywords.push(img.keyword);
-    //   }
-    // });
-  
-    //creates a select option for each keyword from the list
-    // keywords.forEach((keyword) => {
-    //   let template = $('option');
-    //   let clone = template.clone();
-  
-    //   clone.attr('value', keyword);
-    //   clone.text(keyword);
-    //   $('select').append(clone[0]);
-    // });
   });
 }
 
@@ -138,40 +114,51 @@ function getPageTwo() {
     allImgObjs.push(this);
   }
 
+  let template = $('.placeholder');
+  $('main').empty();
+  $('main').append(template[0]);
+  console.log(template);
+
+  let optionTemplate = $('option');
+  $('select').empty();
+  $('select').append(optionTemplate[0]);
+
+  console.log('Page 2 was clicked');
   $.get('./data/page-2.json').done(data => {
     data.forEach(element => {
       new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
     });
 
-    let template = $('#photo-template');
-    $('main').empty();
-    $('main').append(template[0]);
-
-    let optionTemplate = $('option');
-    $('select').empty();
-    $('select').append(optionTemplate[0]);
-
-    //creates a new section for each image
     allImgObjs.forEach((img) => {
-      let template = $('section');
-      let clone = template.clone();
+      let theTemplateScript = $('#image-template').html();
+      console.log('the template script: ', theTemplateScript);
   
-      clone.attr('id', `${img.keyword}`);
+      let theTemplate = Handlebars.compile(theTemplateScript);
+      let context = {
+        "title": `${img.title}`,
+        "image_url": `${img.image_url}`,
+        "alt-tag": `${img.title}`,
+        "description": `${img.description}`
+      }
+  
+      let theCompiledHTML = theTemplate(context);
+      console.log('compiled HTML: ', theCompiledHTML);
+      let template = $('.placeholder');
+      let clone = template.clone();
       clone.attr('class', 'all');
-      clone.children('h2').text(img.title);
-      clone.children('img').attr('src', `${img.image_url}`);
-      clone.children('img').attr('alt', `${img.title}`);
-      clone.children('p').text(img.description);
+      clone.attr('id', `${img.keyword}`);
+      console.log('clone: ', clone);
+      clone.html(theCompiledHTML);
       $('main').append(clone[0]);
       clone.show();
-      
-      //adds each keyword to a list
+      console.log('clone HTML: ', clone[0]);
+
       if(!keywords.includes(img.keyword)) {
         keywords.push(img.keyword);
       }
     });
-  
-    //creates a select option for each keyword from the list
+
+      // creates a select option for each keyword from the list
     keywords.forEach((keyword) => {
       let template = $('option');
       let clone = template.clone();

@@ -17,18 +17,16 @@
           <li><a href="#">Page 2</a></li>
         </ul>
       </nav>
-      <script id="option-template">
-        <option value="default">{{keyword}}</option>
-      </script>
-      <select class="template">
+      <select>
+        <option value="default">Filter by Keyword</option>
       </select>
     </header>
+    <script id="image-template" type="text/x-handlebars-template">
+      <h2>{{title}}</h2>
+      <img src={{image_url}} alt={{alt-tag}}>
+      <p>{{description}}</p>
+    </script>
     <main>
-      <script id="image-template" type="text/x-handlebars-template">
-        <h2>{{title}}</h2>
-        <img src={{image_url}} alt={{alt-tag}}>
-        <p>{{description}}</p>
-      </script>
       <section class="placeholder"></section>
     </main>
     <footer>
