@@ -38,7 +38,7 @@ $('#sort-by').change(function(e) {
   if(e.target.value === 'title') {
     console.log('this is supposed to sort by title');
     console.log(allImgObjs);
-    return allImgObjs.sort((a, b) => {
+    allImgObjs.sort((a, b) => {
       if(a.title < b.title) {
         return -1;
       }
@@ -47,7 +47,37 @@ $('#sort-by').change(function(e) {
       }
       return 0;
     });
+
+    let template = $('.placeholder');
+    $('main').empty();
+    $('main').append(template[0]);
+  
+    let optionTemplate = $('option');
+    $('select').empty();
+    $('select').append(optionTemplate[0]);
+
+    allImgObjs.forEach((img) => {
+      let theTemplateScript = $('#image-template').html();
+  
+      let theTemplate = Handlebars.compile(theTemplateScript);
+      let context = {
+        "title": `${img.title}`,
+        "image_url": `${img.image_url}`,
+        "alt-tag": `${img.title}`,
+        "description": `${img.description}`
+      }
+  
+      let theCompiledHTML = theTemplate(context);
+      let template = $('.placeholder');
+      let clone = template.clone();
+      clone.attr('class', 'all');
+      clone.attr('id', `${img.keyword}`);
+      clone.html(theCompiledHTML);
+      $('main').append(clone[0]);
+      clone.show();
+    });
   }
+
   if(e.target.value === 'horns') {
     console.log('this is supposed to sort by horns');
       console.log(allImgObjs);
