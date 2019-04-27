@@ -150,7 +150,7 @@ function renderSelectOptions(arr) {
   arr.forEach((keyword) => {
     let template = $('option');
     let clone = template.clone();
-
+    
     clone.attr('value', keyword);
     clone.text(keyword);
     $('select').append(clone[0]);
