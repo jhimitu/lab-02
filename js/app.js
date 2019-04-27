@@ -94,10 +94,51 @@ $('#sort-by').change(function(e) {
 
   if(e.target.value === 'horns') {
     console.log('this is supposed to sort by horns');
-      console.log(allImgObjs);
-      return allImgObjs.sort((a, b) => {
-        return a.horns - b.horns;
-      });
+    console.log(allImgObjs);
+    allImgObjs.sort((a, b) => {
+      return a.horns - b.horns;
+    });
+    let template = $('.placeholder');
+    $('main').empty();
+    $('main').append(template[0]);
+  
+    let optionTemplate = $('option');
+    $('select').empty();
+    $('select').append(optionTemplate[0]);
+
+    allImgObjs.forEach((img) => {
+      let theTemplateScript = $('#image-template').html();
+  
+      let theTemplate = Handlebars.compile(theTemplateScript);
+      let context = {
+        "title": `${img.title}`,
+        "image_url": `${img.image_url}`,
+        "alt-tag": `${img.title}`,
+        "description": `${img.description}`
+      }
+  
+      let theCompiledHTML = theTemplate(context);
+      let template = $('.placeholder');
+      let clone = template.clone();
+      clone.attr('class', 'all');
+      clone.attr('id', `${img.keyword}`);
+      clone.html(theCompiledHTML);
+      $('main').append(clone[0]);
+      clone.show();
+
+      if(!keywords.includes(img.keyword)) {
+        keywords.push(img.keyword);
+      }
+    });
+
+    keywords.forEach((keyword) => {
+      let template = $('option');
+      let clone = template.clone();
+  
+      clone.attr('value', keyword);
+      clone.text(keyword);
+      $('select').append(clone[0]);
+    });
   }
 });
 
