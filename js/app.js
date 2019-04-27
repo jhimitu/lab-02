@@ -2,6 +2,7 @@
 
 
 let allImgObjs;
+let keywords = ['all'];
 //gets page one on pageload
 $(() => {
   getPageOne();
@@ -75,6 +76,19 @@ $('#sort-by').change(function(e) {
       clone.html(theCompiledHTML);
       $('main').append(clone[0]);
       clone.show();
+
+      if(!keywords.includes(img.keyword)) {
+        keywords.push(img.keyword);
+      }
+    });
+
+    keywords.forEach((keyword) => {
+      let template = $('option');
+      let clone = template.clone();
+  
+      clone.attr('value', keyword);
+      clone.text(keyword);
+      $('select').append(clone[0]);
     });
   }
 
