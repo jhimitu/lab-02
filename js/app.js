@@ -1,16 +1,26 @@
 'use-strict';
 
-
 let allImgObjs;
-let keywords = ['all'];
+let keywords = [];
+
+function Img(image_url, title, description, keyword, horns) {
+  this.image_url = image_url;
+  this.title = title;
+  this.description = description;
+  this.keyword = keyword;
+  this.horns = horns;
+  allImgObjs.push(this);
+}
+
 //gets page one on pageload
 $(() => {
   getPageOne();
 });
 
-//gets data for each page
+// EVENT FUNCTIONS //
+
+//handles page link clicks
 $('ul').on('click', (e) => {
-  console.log(e);
   if(e.target.text === 'Page 1') {
     getPageOne();
   }
@@ -19,10 +29,9 @@ $('ul').on('click', (e) => {
   }
 });
 
-//handles option selection event
+//handles filtering
 $('select').change((e) => {
   $('section').each(function() {
-    // $(this).show();
     if( $(this).attr('id') !== e.target.value) {
       $(this).hide();
     }
@@ -35,10 +44,9 @@ $('select').change((e) => {
   });
 });
 
+//handles sorting
 $('#sort-by').change(function(e) {
   if(e.target.value === 'title') {
-    console.log('this is supposed to sort by title');
-    console.log(allImgObjs);
     allImgObjs.sort((a, b) => {
       if(a.title < b.title) {
         return -1;
@@ -49,176 +57,59 @@ $('#sort-by').change(function(e) {
       return 0;
     });
 
-    let template = $('.placeholder');
-    $('main').empty();
-    $('main').append(template[0]);
-  
-    let optionTemplate = $('option');
-    $('select').empty();
-    $('select').append(optionTemplate[0]);
-
-    allImgObjs.forEach((img) => {
-      let theTemplateScript = $('#image-template').html();
-  
-      let theTemplate = Handlebars.compile(theTemplateScript);
-      let context = {
-        "title": `${img.title}`,
-        "image_url": `${img.image_url}`,
-        "alt-tag": `${img.title}`,
-        "description": `${img.description}`
-      }
-  
-      let theCompiledHTML = theTemplate(context);
-      let template = $('.placeholder');
-      let clone = template.clone();
-      clone.attr('class', 'all');
-      clone.attr('id', `${img.keyword}`);
-      clone.html(theCompiledHTML);
-      $('main').append(clone[0]);
-      clone.show();
-
-      if(!keywords.includes(img.keyword)) {
-        keywords.push(img.keyword);
-      }
-    });
-
-    keywords.forEach((keyword) => {
-      let template = $('option');
-      let clone = template.clone();
-  
-      clone.attr('value', keyword);
-      clone.text(keyword);
-      $('select').append(clone[0]);
-    });
+    emptyPage();
+    renderImages(allImgObjs);
+    renderSelectOptions(keywords);
   }
 
   if(e.target.value === 'horns') {
-    console.log('this is supposed to sort by horns');
-    console.log(allImgObjs);
     allImgObjs.sort((a, b) => {
       return a.horns - b.horns;
     });
-    let template = $('.placeholder');
-    $('main').empty();
-    $('main').append(template[0]);
-  
-    let optionTemplate = $('option');
-    $('select').empty();
-    $('select').append(optionTemplate[0]);
 
-    allImgObjs.forEach((img) => {
-      let theTemplateScript = $('#image-template').html();
-  
-      let theTemplate = Handlebars.compile(theTemplateScript);
-      let context = {
-        "title": `${img.title}`,
-        "image_url": `${img.image_url}`,
-        "alt-tag": `${img.title}`,
-        "description": `${img.description}`
-      }
-  
-      let theCompiledHTML = theTemplate(context);
-      let template = $('.placeholder');
-      let clone = template.clone();
-      clone.attr('class', 'all');
-      clone.attr('id', `${img.keyword}`);
-      clone.html(theCompiledHTML);
-      $('main').append(clone[0]);
-      clone.show();
-
-      if(!keywords.includes(img.keyword)) {
-        keywords.push(img.keyword);
-      }
-    });
-
-    keywords.forEach((keyword) => {
-      let template = $('option');
-      let clone = template.clone();
-  
-      clone.attr('value', keyword);
-      clone.text(keyword);
-      $('select').append(clone[0]);
-    });
+    emptyPage();
+    renderImages(allImgObjs);
+    renderSelectOptions(keywords);
   }
 });
 
+
+// GENERAL FUNTCIONS //
+
 function getPageOne() {
   allImgObjs = [];
-  let keywords = ['all'];
+  keywords = ['all'];
 
-  function Img(image_url, title, description, keyword, horns) {
-    this.image_url = image_url;
-    this.title = title;
-    this.description = description;
-    this.keyword = keyword;
-    this.horns = horns;
-    allImgObjs.push(this);
-  }
+  emptyPage();
 
-  let template = $('.placeholder');
-  $('main').empty();
-  $('main').append(template[0]);
-
-  let optionTemplate = $('option');
-  $('select').empty();
-  $('select').append(optionTemplate[0]);
-
-  console.log('Page 1 was clicked');
   $.get('./data/page-1.json').done(data => {
     data.forEach(element => {
       new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
     });
 
-    allImgObjs.forEach((img) => {
-      let theTemplateScript = $('#image-template').html();
-  
-      let theTemplate = Handlebars.compile(theTemplateScript);
-      let context = {
-        "title": `${img.title}`,
-        "image_url": `${img.image_url}`,
-        "alt-tag": `${img.title}`,
-        "description": `${img.description}`
-      }
-  
-      let theCompiledHTML = theTemplate(context);
-      let template = $('.placeholder');
-      let clone = template.clone();
-      clone.attr('class', 'all');
-      clone.attr('id', `${img.keyword}`);
-      clone.html(theCompiledHTML);
-      $('main').append(clone[0]);
-      clone.show();
-
-      if(!keywords.includes(img.keyword)) {
-        keywords.push(img.keyword);
-      }
-    });
-
-      // creates a select option for each keyword from the list
-    keywords.forEach((keyword) => {
-      let template = $('option');
-      let clone = template.clone();
-  
-      clone.attr('value', keyword);
-      clone.text(keyword);
-      $('select').append(clone[0]);
-    });
+    renderImages(allImgObjs);
+    renderSelectOptions(keywords);
   });
 }
 
 function getPageTwo() {
   allImgObjs = [];
-  let keywords = ['all'];
+  keywords = ['all'];
 
-  function Img(image_url, title, description, keyword, horns) {
-    this.image_url = image_url;
-    this.title = title;
-    this.description = description;
-    this.keyword = keyword;
-    this.horns = horns;
-    allImgObjs.push(this);
-  }
+  emptyPage();
 
+  $.get('./data/page-2.json').done(data => {
+
+    data.forEach(element => {
+      new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
+    });
+
+    renderImages(allImgObjs);
+    renderSelectOptions(keywords);
+  });
+}
+
+function emptyPage() {
   let template = $('.placeholder');
   $('main').empty();
   $('main').append(template[0]);
@@ -226,46 +117,42 @@ function getPageTwo() {
   let optionTemplate = $('option');
   $('select').empty();
   $('select').append(optionTemplate[0]);
+}
 
-  console.log('Page 2 was clicked');
-  $.get('./data/page-2.json').done(data => {
-    data.forEach(element => {
-      new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
-    });
+function renderImages(arr) {
+  arr.forEach((element) => {
+    let theTemplateScript = $('#image-template').html();
 
-    allImgObjs.forEach((img) => {
-      let theTemplateScript = $('#image-template').html();
-  
-      let theTemplate = Handlebars.compile(theTemplateScript);
-      let context = {
-        "title": `${img.title}`,
-        "image_url": `${img.image_url}`,
-        "alt-tag": `${img.title}`,
-        "description": `${img.description}`
-      }
-  
-      let theCompiledHTML = theTemplate(context);
-      let template = $('.placeholder');
-      let clone = template.clone();
-      clone.attr('class', 'all');
-      clone.attr('id', `${img.keyword}`);
-      clone.html(theCompiledHTML);
-      $('main').append(clone[0]);
-      clone.show();
+    let theTemplate = Handlebars.compile(theTemplateScript);
+    let context = {
+      "title": `${element.title}`,
+      "image_url": `${element.image_url}`,
+      "alt-tag": `${element.title}`,
+      "description": `${element.description}`
+    }
 
-      if(!keywords.includes(img.keyword)) {
-        keywords.push(img.keyword);
-      }
-    });
+    let theCompiledHTML = theTemplate(context);
+    let template = $('.placeholder');
+    let clone = template.clone();
+    clone.attr('class', 'all');
+    clone.attr('id', `${element.keyword}`);
+    clone.html(theCompiledHTML);
+    $('main').append(clone[0]);
+    clone.show();
 
-      // creates a select option for each keyword from the list
-    keywords.forEach((keyword) => {
-      let template = $('option');
-      let clone = template.clone();
-  
-      clone.attr('value', keyword);
-      clone.text(keyword);
-      $('select').append(clone[0]);
-    });
+    if(!keywords.includes(element.keyword)) {
+      keywords.push(element.keyword);
+    }
+  });
+}
+
+function renderSelectOptions(arr) {
+  arr.forEach((keyword) => {
+    let template = $('option');
+    let clone = template.clone();
+
+    clone.attr('value', keyword);
+    clone.text(keyword);
+    $('select').append(clone[0]);
   });
 }
